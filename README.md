@@ -240,7 +240,7 @@ the reason I put so much into testing it:
 
 * **Tested in a car, not just on a bench.** The dongle has been used for weeks in a 2017 Volkswagen Golf GTI, including logging sessions of
   more than half an hour, ignition on and engine running, and sleeping and waking with the car. Problems found there were fixed and checked again.
-* **Automated tests run after every change.** About 50 desktop tests (53 at the moment) cover the protocol code, plus bench tests that run each mode over
+* **Automated tests run after every change.** About 50 desktop tests (58 at the moment) cover the protocol code, plus bench tests that run each mode over
   Bluetooth and Wi-Fi against a built-in simulated car.
 * **Failures leave evidence.** The dongle keeps a log in its own memory, including crash reports, so a fault can be traced instead of guessed at.
   I read that log after every drive and look for lost frames, errors, resets and memory use. Several bugs, some of them my fault and some the
