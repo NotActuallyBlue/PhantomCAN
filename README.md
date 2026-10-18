@@ -254,7 +254,6 @@ What is not proven yet, so you can decide for yourself:
 * The Bluetooth connection cannot have a password, and clearing codes does not work on every module (see Diag mode).
 * Logging, ECU info, trouble codes, ELM327 mode and SavvyCAN mode are tested in the car. I have not yet flashed an ECU or TCU through the dongle myself, so treat flashing as untested.
 * The dongle sleeps when the car is off, and it wakes when the car is unlocked or BOOT is pressed, but I have not yet measured how much current it draws while asleep.
-* Heat: the highest chip temperature logged so far is 44 C, in a 42-minute drive. I have not yet tested it with the heater blowing on it or in a hot summer cabin.
 * I have not tested it with every vehicle, app version or phone.
 
 ## Safety and legal
