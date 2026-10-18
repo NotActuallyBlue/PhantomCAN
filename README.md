@@ -3,7 +3,9 @@
 A pocket diagnostic and logging dongle for VAG cars. It plugs into the OBD-II port, shows what it is doing on its own
 screen, and connects to your phone or laptop over Bluetooth, Wi-Fi or USB.
 
-**Firmware downloads** are on this page's [Releases](../../releases) section. Each release has the update file (`firmware.bin`), a full image for
+**Status: in development.** PhantomCAN is still being tested and has not been released yet. Features and behaviour can change, and bugs are expected.
+
+**Firmware downloads** will appear in this page's [Releases](../../releases) section. There is no release yet. Each release will have the update file (`firmware.bin`), a full image for
 first-time USB flashing, and a checksum file.
 
 **What it does**
@@ -92,8 +94,7 @@ charged.
 Compatibility notes:
 
 * **Simos.app** works with both the engine control unit (ECU) and the transmission control unit (TCU).
-* **Simos Tools** logs the engine control unit (ECU), and with the transmission control unit (TCU) enabled it worked in the latest drive tests (a 5-minute session with
-  no lost frames). Earlier firmware showed "Failed to create PID frame" when the TCU was on. If you see it, use Simos.app, which has always worked with the TCU on this dongle and car.
+* **Simos Tools** logs the engine control unit (ECU), and with the transmission control unit (TCU) enabled it works in the car. Earlier firmware showed "Failed to create PID frame" when the TCU was on, because the ECU's first reply reached the app before the TCU's. The dongle now sends the TCU's reply first for Simos Tools. After that change it worked in the car, with an occasional single retry on the first connection. If the error keeps coming back, use Simos.app, which has always worked with the TCU on this dongle and car.
 
 ## Diag mode
 
@@ -213,7 +214,7 @@ You can update over Wi-Fi without any cable.
 | The screen is dark | It switches off after a while. Press BOOT to wake it. |
 | The dongle does not respond after an update | Wait 30 seconds. If it is still unresponsive, unplug it and plug it back in; it starts the previous firmware if the new one failed. |
 | Simos Tools cannot find or connect to the dongle | Do not rename the dongle in Simos mode. Simos Tools only looks for **BLE_TO_ISOTP20**. If it was renamed in Simos.app, rename it back to **BLE_TO_ISOTP20** there (use Simos.app, then power the dongle off and on). |
-| Simos Tools shows "Failed to create PID frame" with the TCU enabled | This happened on earlier firmware and worked in the latest drive tests. If it appears, try again once, then use Simos.app for TCU logging, or turn the TCU off in Simos Tools, and open an issue on this page with the app version. |
+| Simos Tools shows "Failed to create PID frame" with the TCU enabled | This happened on earlier firmware and is fixed in the current one. A single retry right after connecting can still happen: try again once. If it keeps coming back, use Simos.app for TCU logging, or turn the TCU off in Simos Tools, and open an issue on this page with the app version. |
 
 ## Specifications
 
@@ -251,8 +252,9 @@ What is not proven yet, so you can decide for yourself:
 
 * It has been tested on one car, and the hardware is a prototype. A custom board is planned and will be tested again from the start.
 * The Bluetooth connection cannot have a password, and clearing codes does not work on every module (see Diag mode).
-* Logging, ECU info and trouble codes are tested in the car. I have not yet flashed an ECU or TCU through the dongle myself, so treat flashing as untested.
-* The dongle sleeps when the car is off, and it wakes when the car is unlocked, but I have not yet measured how much current it draws while asleep.
+* Logging, ECU info, trouble codes, ELM327 mode and SavvyCAN mode are tested in the car. I have not yet flashed an ECU or TCU through the dongle myself, so treat flashing as untested.
+* The dongle sleeps when the car is off, and it wakes when the car is unlocked or BOOT is pressed, but I have not yet measured how much current it draws while asleep.
+* Heat: the highest chip temperature logged so far is 44 C, in a 42-minute drive. I have not yet tested it with the heater blowing on it or in a hot summer cabin.
 * I have not tested it with every vehicle, app version or phone.
 
 ## Safety and legal
@@ -281,6 +283,7 @@ It is built on open-source work, used under the licences below, and the authors'
 * The Bluetooth and ISO-TP bridge it grew from, [esp32-isotp-ble-bridge](https://github.com/bri3d/esp32-isotp-ble-bridge) by Brian Ledbetter (bri3d), and its
   [fork](https://github.com/Switchleg1/esp32-isotp-ble-bridge) by Switchleg1 (MIT licence).
 * [isotp-c](https://github.com/lishen2/isotp-c) by Shen Li (MIT licence).
+* [Fira Sans](https://github.com/mozilla/Fira) by Mozilla, Telefonica, Carrois Corporate and bBox Type (SIL Open Font License 1.1, notice below), used for all text on the screen.
 * [ESP-IDF](https://github.com/espressif/esp-idf) by Espressif Systems and the open-source components it includes, under their own licences
   (mostly Apache 2.0, see [its licence page](https://github.com/espressif/esp-idf/blob/master/LICENSE)).
 
@@ -319,6 +322,106 @@ MIT License
 Copyright (c) 2019 Shen Li & Co-Operators
 
 (The permission and warranty text is the same as above.)
+```
+
+</details>
+
+<details>
+<summary>SIL Open Font License notice (Fira Sans)</summary>
+
+```
+Digitized data copyright 2012-2018: The Mozilla Foundation, Telefonica S.A., Carrois Corporate GbR and bBox Type GmbH.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+http://scripts.sil.org/OFL
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded, 
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+"Reserved Font Name" refers to any names specified as such after the
+copyright statement(s).
+
+"Original Version" refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+"Author" refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
 ```
 
 </details>
