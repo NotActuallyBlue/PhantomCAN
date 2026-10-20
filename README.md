@@ -23,6 +23,12 @@ first-time USB flashing, and a checksum file.
 
 ---
 
+## What the screen shows
+
+![The dongle's screens: Simos mode, bus traffic, firmware and memory, SavvyCAN, Pairing Mode, the mode menu and About](img/screens.png)
+
+Pictures made on a computer by running the dongle's real screen code with made-up numbers (the build date and counters are examples). The screen is 170 x 320 pixels.
+
 ## What you need
 
 * A car with a standard OBD-II port that uses **CAN at 500 kbit/s**. Most cars sold in the US since 2008 do. The dongle was tested
