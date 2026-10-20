@@ -27,7 +27,7 @@ first-time USB flashing, and a checksum file.
 
 * A car with a standard OBD-II port that uses **CAN at 500 kbit/s**. Most cars sold in the US since 2008 do. The dongle was tested
   on a 2017 Volkswagen Golf GTI (Mk7); other models are expected to work but have not been tested yet.
-* For Simos mode: **Simos.app** (by Tycho) or **Simos Tools** (by Switchleg1).
+* For Simos mode: **Simos.app** or **Simos Tools**, which are separate products you get from their own developers.
 * For SavvyCAN mode: a computer with [SavvyCAN](https://www.savvycan.com).
 
 Not supported: CAN FD and DoIP (found on the newest cars), K-line, and older cars that use the TP 2.0 protocol.
@@ -202,7 +202,7 @@ What is not proven yet, so you can decide for yourself:
 * Modifying a vehicle's emissions equipment or its emissions-related software can be illegal for road use where you live. This dongle only
   reports what a control unit says; you are responsible for complying with local law.
 * Volkswagen, Audi, Golf, GTI, Bluetooth and the other names used here belong to their owners. This product is not affiliated with or
-  endorsed by them. PhantomCAN and Ghostwerks are names of this product and its maker. Simos.app (Tycho) and Simos Tools (Switchleg1) are separate products by their own developers.
+  endorsed by them. PhantomCAN and Ghostwerks are names of this product and its maker. Simos.app and Simos Tools are separate products by their own developers. PhantomCAN is built to be used with them; it is not made, sponsored, endorsed or supported by them.
 
 ## Credits and licences
 
