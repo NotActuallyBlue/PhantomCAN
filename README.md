@@ -5,18 +5,19 @@ screen, and connects to your phone or laptop over Bluetooth, Wi-Fi or USB.
 
 **Status: in development.** PhantomCAN is still being tested and has not been released yet. Features and behaviour can change, and bugs are expected.
 
-**Firmware downloads** will appear in this page's [Releases](../../releases) section. There is no release yet. Each release will have the update file (`firmware.bin`), a full image for
+**Firmware downloads** will appear in this page's [Releases](../../releases) section. There is no release yet. Each release will have the update file (`phantomcan-dongle.bin`), a full image for
 first-time USB flashing, and a checksum file.
 
 **What it does**
 
-* **Log and tune with the Simos apps.** A fast Bluetooth link for Simos.app and Simos Tools: live ECU and transmission
+* **Log and tune with Simos.app.** A fast Bluetooth link for Simos.app: live ECU and transmission
   logging, ECU info and flashing.
 * **Capture CAN traffic on a computer.** SavvyCAN mode streams raw CAN frames over Wi-Fi, so it works with the dongle in the car.
+* **Feed an in-car digital dash.** In Simos mode, while no phone app is connected, the dongle sends live readings to the PhantomDash display over an encrypted radio link; when an app connects the dash pauses and shows **APP CONNECTED**, and it carries on when the app disconnects (the dash is a separate product, still in development).
 * **Sleep when the car is off,** and update its own firmware over Wi-Fi.
 
 **Contents:** [What you need](#what-you-need) · [Getting started](#getting-started) · [Choosing a mode](#choosing-a-mode) ·
-[Simos mode](#simos-mode) · [SavvyCAN mode](#savvycan-mode) ·
+[Simos mode](#simos-mode) · [SavvyCAN mode](#savvycan-mode) · [The PhantomDash dash](#the-phantomdash-dash) ·
 [Auto sleep](#auto-sleep) · [Updating the firmware](#updating-the-firmware) · [Troubleshooting](#troubleshooting) ·
 [Specifications](#specifications) · [How this was built](#how-this-was-built) · [Safety and legal](#safety-and-legal) ·
 [Credits and licences](#credits-and-licences)
@@ -25,7 +26,7 @@ first-time USB flashing, and a checksum file.
 
 ## What the screen shows
 
-![The dongle's screens: Simos mode, bus traffic, firmware and memory, SavvyCAN, Pairing Mode, the mode menu and About](img/screens.png)
+![The dongle's screens: Simos mode with the dash row, bus traffic, firmware and memory, SavvyCAN, pairing the dash, the Pair dash prompt, Wi-Fi update and About](img/screens.png)
 
 Pictures made on a computer by running the dongle's real screen code with made-up numbers (the build date and counters are examples). The screen is 170 x 320 pixels.
 
@@ -33,7 +34,7 @@ Pictures made on a computer by running the dongle's real screen code with made-u
 
 * A car with a standard OBD-II port that uses **CAN at 500 kbit/s**. Most cars sold in the US since 2008 do. The dongle was tested
   on a 2017 Volkswagen Golf GTI (Mk7); other models are expected to work but have not been tested yet.
-* For Simos mode: **Simos.app** or **Simos Tools**, which are separate products you get from their own developers.
+* For Simos mode: **Simos.app**, a separate product you get from its own developer.
 * For SavvyCAN mode: a computer with [SavvyCAN](https://www.savvycan.com).
 
 Not supported: CAN FD and DoIP (found on the newest cars), K-line, and older cars that use the TP 2.0 protocol.
@@ -58,8 +59,8 @@ release when you see the mode you want.
 | Hold BOOT for | The screen offers | What happens |
 |---|---|---|
 | a quick tap | next page | cycles the status, bus monitor and firmware info pages |
-| 2 seconds | the next mode | switches to it and restarts |
-| every further 1.5 seconds | the mode after that | keep holding to switch between Simos and SavvyCAN |
+| 2 to 3.5 seconds | the other mode | switches between Simos and SavvyCAN and restarts (in SavvyCAN mode this lasts until 6.5 seconds) |
+| about 3.5 to 6.5 seconds (Simos mode) | **Pair dash** | opens a pairing window for the PhantomDash dash, no restart (see [The PhantomDash dash](#the-phantomdash-dash)) |
 | about 6.5 to 8 seconds | **Bench sim** | demo mode, no car needed (see below) |
 | about 8 to 9.5 seconds | **Wi-Fi update** | firmware update mode |
 | 9.5 seconds or more | **Cancel** | restarts in the same mode |
@@ -83,9 +84,9 @@ app without a car. Nothing is sent on a car's CAN bus.
 
 ## Simos mode
 
-The default mode. The dongle appears over Bluetooth as **BLE_TO_ISOTP20**, the name Simos Tools looks for.
+The default mode. The dongle appears over Bluetooth as **BLE_TO_ISOTP20**.
 
-1. Open Simos.app or Simos Tools and choose the dongle in its Bluetooth device list.
+1. Open Simos.app and choose the dongle in its Bluetooth device list.
 2. Connect. The screen shows **CONNECTED** with the connection details (link speed and ECU and transmission response times).
 3. Use the app as normal: ECU info, logging and flashing.
 
@@ -95,7 +96,6 @@ charged.
 Compatibility notes:
 
 * **Simos.app** works with both the engine control unit (ECU) and the transmission control unit (TCU).
-* **Simos Tools** logs the engine control unit (ECU), and with the transmission control unit (TCU) enabled it works in the car. Earlier firmware showed "Failed to create PID frame" when the TCU was on, because the ECU's first reply reached the app before the TCU's. The dongle now sends the TCU's reply first for Simos Tools. After that change it worked in the car, with an occasional single retry on the first connection. If the error keeps coming back, use Simos.app, which has always worked with the TCU on this dongle and car.
 
 ## SavvyCAN mode
 
@@ -121,26 +121,36 @@ engine and transmission reply on `0x7E8` and `0x7E9`.
 At a desk you can also connect the dongle to the computer over USB and add it in SavvyCAN as a serial **GVRET** device (250000 baud). Do not do
 this while the dongle is in a car.
 
+## The PhantomDash dash
+
+For the PhantomDash digital dash, a separate product that is still in development. There is no separate mode for it: Simos mode serves the dash whenever no phone app is connected. The dongle only reads: it asks the car for the values the dash wants and sends the raw answers over an encrypted ESP-NOW radio link.
+
+* **Pairing, once:** disconnect any phone app, hold **BOOT** until the screen says **PAIR DASH** (about 4 seconds) and let go. Then start pairing on the dash's phone page. Both show the same six-digit code: if they match, confirm on the phone and press **KEY** on the dongle; if not, tap **BOOT**. There is nothing to type, and the keys are kept for next time. With no dash paired, the dongle does not start its radio link at all.
+* **Every day:** the dash shows live values as soon as the car is awake. The **DASH** row on the dongle's first page says **LIVE** with the number of reads a second while it is serving the dash.
+* **When you connect Simos.app:** the dongle hands the car to the app at once. It switches its dash radio off completely (the app gets the dongle's full memory and attention), and the dash shows **APP CONNECTED**. About 2 seconds after the app disconnects the dash link comes back by itself.
+* **Lists:** mode 22 lists work. HSL lists (the engine computer's high-speed logging, which needs a tune with the HSL patch) are built and tested on the bench only.
+
 ## Auto sleep
 
 The OBD-II port has power all the time, so to avoid draining the car's battery the dongle goes into a low-power sleep after **3 minutes**
-with no CAN traffic, no connected phone or app, and no button presses. Driving the car, unlocking it, connecting an app or pressing BOOT wakes it. If something merely stirred the car's network and nothing
+with no CAN traffic, no connected phone, app or paired dash, and no button presses. Driving the car, unlocking it, connecting an app or pressing BOOT wakes it. If something merely stirred the car's network and nothing
 connects, the dongle goes back to sleep after about 30 seconds instead of staying awake for the full 3 minutes. It does
 not sleep while connected over USB, or in Bench sim or Wi-Fi update modes. In SavvyCAN mode it sleeps only when no computer is connected.
 
-Sleep lowers the dongle's power use but does not turn it off completely. **If you leave the car parked for days or weeks, unplug the
+Sleep lowers the dongle's power use but does not turn it off completely. Measured on one assembled dongle on a bench supply, idle with no data and the screen off, it draws about **30 to 35 mA** while awake (the 3 minutes before sleep) and about **5 to 6 mA** asleep. That is roughly 0.14 Ah a day. **If you leave the car parked for days or weeks, unplug the
 dongle.**
 
 ## Updating the firmware
 
 You can update over Wi-Fi without any cable.
 
-1. Hold BOOT for about 8 to 9.5 seconds and release on **Wi-Fi update**.
-2. On your phone or computer, join the Wi-Fi network shown on the dongle's screen (**PhantomCAN-** followed by four characters that tell dongles
+1. On your phone, download `phantomcan-dongle.bin` from the newest [release](../../releases) first (hold **KEY** for 5 seconds on the dongle for the About screen's QR code that opens this page). The dongle's network has no internet.
+2. Hold BOOT for about 8 to 9.5 seconds and release on **Wi-Fi update**.
+3. Scan the QR code on the dongle's screen with the phone's camera to join its Wi-Fi, or join by hand: the network shown (**PhantomCAN-** followed by four characters that tell dongles
    apart) and enter the password shown there. The password is new every time.
-3. Open `http://192.168.4.1` in a browser, choose the `firmware.bin` file from the newest [release](../../releases), and upload it. Compare its SHA-256 with the `SHA256SUMS` file in the
+4. Open `http://192.168.4.1` in a browser (if the phone says "connected without internet", tap the network's **Manage router** or similar link), tap **Choose the update file** and pick `phantomcan-dongle.bin`. The upload starts at once. Compare the file's SHA-256 with the `SHA256SUMS` file in the
    release if you want to check the download.
-4. The dongle restarts by itself. **Wait about 30 seconds before unplugging it.** It checks the new firmware as it starts, and goes back to
+5. The dongle restarts by itself. **Wait about 30 seconds before unplugging it.** It checks the new firmware as it starts, and goes back to
    the previous version automatically if the new one does not start properly.
 
 ## Troubleshooting
@@ -151,20 +161,18 @@ You can update over Wi-Fi without any cable.
 | Nothing answers, or the screen says BUS SILENT | Turn the ignition on and wait a few seconds. Some cars need the engine running before the OBD port wakes. |
 | The screen is dark | It switches off after a while. Press BOOT to wake it. |
 | The dongle does not respond after an update | Wait 30 seconds. If it is still unresponsive, unplug it and plug it back in; it starts the previous firmware if the new one failed. |
-| Simos Tools cannot find or connect to the dongle | Do not rename the dongle in Simos mode. Simos Tools only looks for **BLE_TO_ISOTP20**. If it was renamed in Simos.app, rename it back to **BLE_TO_ISOTP20** there (use Simos.app, then power the dongle off and on). |
-| Simos Tools shows "Failed to create PID frame" with the TCU enabled | This happened on earlier firmware and is fixed in the current one. A single retry right after connecting can still happen: try again once. If it keeps coming back, use Simos.app for TCU logging, or turn the TCU off in Simos Tools, and open an issue on this page with the app version. |
 
 ## Specifications
 
 | | |
 |---|---|
 | Connection to the car | OBD-II port, CAN at 500 kbit/s (11-bit) |
-| Power | 12 V from the OBD-II port |
-| Wireless | Bluetooth LE and a 2.4 GHz Wi-Fi access point (WPA2) |
+| Power | 12 V from the OBD-II port. Measured on one unit at 12 V (bench supply): about 75 mA with the screen on and 35 mA with it off, awake and idle; about 6 mA asleep |
+| Wireless | Bluetooth LE, a 2.4 GHz Wi-Fi access point (WPA2) and an encrypted ESP-NOW link to the PhantomDash dash |
 | USB | USB-C, for bench use |
 | Display | 1.9 inch colour screen, 170 x 320 |
 | Controls | BOOT and KEY buttons |
-| Modes | Simos, SavvyCAN, plus Bench sim and Wi-Fi update |
+| Modes | Simos (which also feeds the PhantomDash dash) and SavvyCAN, plus Bench sim and Wi-Fi update |
 | Protocols | ISO-TP (ISO 15765-2), UDS (ISO 14229), GVRET |
 
 ## How this was built
@@ -178,8 +186,8 @@ the reason I put so much into testing it:
 
 * **Tested in a car, not just on a bench.** The dongle has been used for weeks in a 2017 Volkswagen Golf GTI, including logging sessions of
   more than half an hour, ignition on and engine running, and sleeping and waking with the car. Problems found there were fixed and checked again.
-* **Automated tests run after every change.** About 50 desktop tests (48 at the moment) cover the protocol code, plus bench tests that run each mode over
-  Bluetooth and Wi-Fi against a built-in simulated car.
+* **Automated tests run after every change.** More than 90 desktop tests (93 at the moment) cover the protocol code, plus bench tests that run each mode over
+  Bluetooth, Wi-Fi and the dash's radio link against a built-in simulated car.
 * **Failures leave evidence.** The dongle keeps a log in its own memory, including crash reports, so a fault can be traced instead of guessed at.
   I read that log after every drive and look for lost frames, errors, resets and memory use. Several bugs, some of them my fault and some the
   AI's, were found that way and fixed. One example: logging sessions were occasionally losing a few CAN frames at the start, which the log
@@ -190,8 +198,9 @@ What is not proven yet, so you can decide for yourself:
 
 * It has been tested on one car, and the hardware is a prototype. A custom board is planned and will be tested again from the start.
 * The Bluetooth connection cannot have a password.
-* Logging, ECU info and SavvyCAN mode are tested in the car. I have not yet flashed an ECU or TCU through the dongle myself, so treat flashing as untested.
-* The dongle sleeps when the car is off, and it wakes when the car is unlocked or BOOT is pressed, but I have not yet measured how much current it draws while asleep.
+* Logging, ECU info and SavvyCAN mode are tested in the car. I have flashed one engine calibration (CAL) through the dongle with Simos.app, in my own car, and it completed and the car ran. That is a single flash on one car, so treat flashing with care. A full ECU flash, any gearbox (TCU) flash and other cars are untested.
+* The dash link has run in the car: as a separate mode for a few minutes on earlier firmware, and as part of Simos mode in one short test (about 85 seconds: the dash alone, then a Simos.app logging session with the dash paused, then the dash again). The dash's mode 22 values were accurate when I checked them in the car. HSL for the dash and the final dash in a long drive are not tested yet.
+* The dongle sleeps when the car is off, and it wakes when the car is unlocked or BOOT is pressed, and one bench measurement of the assembled dongle shows about 5 to 6 mA asleep (see Auto sleep). In my own car I have watched it go to sleep and wake, and its logs from almost a week of testing show the same. Whether it reaches sleep depends on the car's network going quiet, so another car that keeps its network busy could keep it awake.
 * I have not tested it with every vehicle, app version or phone.
 
 ## Safety and legal
@@ -208,7 +217,7 @@ What is not proven yet, so you can decide for yourself:
 * Modifying a vehicle's emissions equipment or its emissions-related software can be illegal for road use where you live. This dongle only
   reports what a control unit says; you are responsible for complying with local law.
 * Volkswagen, Audi, Golf, GTI, Bluetooth and the other names used here belong to their owners. This product is not affiliated with or
-  endorsed by them. PhantomCAN and Ghostwerks are names of this product and its maker. Simos.app and Simos Tools are separate products by their own developers. PhantomCAN is built to be used with them; it is not made, sponsored, endorsed or supported by them.
+  endorsed by them. PhantomCAN and Ghostwerks are names of this product and its maker. Simos.app is a separate product by its own developer. PhantomCAN is built to be used with it; it is not made, sponsored, endorsed or supported by them.
 
 ## Credits and licences
 
@@ -219,6 +228,7 @@ It is built on open-source work, used under the licences below, and the authors'
 * The Bluetooth and ISO-TP bridge it grew from, [esp32-isotp-ble-bridge](https://github.com/bri3d/esp32-isotp-ble-bridge) by Brian Ledbetter (bri3d), and its
   [fork](https://github.com/Switchleg1/esp32-isotp-ble-bridge) by Switchleg1 (MIT licence).
 * [isotp-c](https://github.com/lishen2/isotp-c) by Shen Li (MIT licence).
+* [QR Code generator library](https://www.nayuki.io/page/qr-code-generator-library) by Project Nayuki (MIT licence; its notice is kept at the top of `main/qrcodegen.c`), used for the Wi-Fi code on the update screen.
 * [Fira Sans](https://github.com/mozilla/Fira) by Mozilla, Telefonica, Carrois Corporate and bBox Type (SIL Open Font License 1.1, notice below), used for all text on the screen.
 * [ESP-IDF](https://github.com/espressif/esp-idf) by Espressif Systems and the open-source components it includes, under their own licences
   (mostly Apache 2.0, see [its licence page](https://github.com/espressif/esp-idf/blob/master/LICENSE)).
