@@ -128,7 +128,7 @@ For the PhantomDash digital dash, a separate product that is still in developmen
 * **Pairing, once:** disconnect any phone app, hold **BOOT** until the screen says **PAIR DASH** (about 4 seconds) and let go. Then start pairing on the dash's phone page. Both show the same six-digit code: if they match, confirm on the phone and press **KEY** on the dongle; if not, tap **BOOT**. There is nothing to type, and the keys are kept for next time. With no dash paired, the dongle does not start its radio link at all.
 * **Every day:** the dash shows live values as soon as the car is awake. The **DASH** row on the dongle's first page says **LIVE** with the number of reads a second while it is serving the dash.
 * **When you connect Simos.app:** the dongle hands the car to the app at once. It switches its dash radio off completely (the app gets the dongle's full memory and attention), and the dash shows **APP CONNECTED**. About 2 seconds after the app disconnects the dash link comes back by itself.
-* **Lists:** mode 22 lists work. HSL lists (the engine computer's high-speed logging, which needs a tune with the HSL patch) are built and tested on the bench only.
+* **Lists:** mode 22 lists work. HSL lists (the engine computer's high-speed logging, which needs a tune with the HSL patch) also work: in my car on 23 Oct 2026 the engine computer accepted the dongle's request and the dash's values were accurate.
 
 ## Auto sleep
 
@@ -186,7 +186,7 @@ the reason I put so much into testing it:
 
 * **Tested in a car, not just on a bench.** The dongle has been used for weeks in a 2017 Volkswagen Golf GTI, including logging sessions of
   more than half an hour, ignition on and engine running, and sleeping and waking with the car. Problems found there were fixed and checked again.
-* **Automated tests run after every change.** More than 90 desktop tests (93 at the moment) cover the protocol code, plus bench tests that run each mode over
+* **Automated tests run after every change.** More than 80 desktop tests (85 at the moment) cover the protocol code, plus bench tests that run each mode over
   Bluetooth, Wi-Fi and the dash's radio link against a built-in simulated car.
 * **Failures leave evidence.** The dongle keeps a log in its own memory, including crash reports, so a fault can be traced instead of guessed at.
   I read that log after every drive and look for lost frames, errors, resets and memory use. Several bugs, some of them my fault and some the
@@ -199,8 +199,8 @@ What is not proven yet, so you can decide for yourself:
 * It has been tested on one car, and the hardware is a prototype. A custom board is planned and will be tested again from the start.
 * The Bluetooth connection cannot have a password.
 * Logging, ECU info and SavvyCAN mode are tested in the car. I have flashed one engine calibration (CAL) through the dongle with Simos.app, in my own car, and it completed and the car ran. That is a single flash on one car, so treat flashing with care. A full ECU flash, any gearbox (TCU) flash and other cars are untested.
-* The dash link has run in the car: as a separate mode for a few minutes on earlier firmware, and as part of Simos mode in one short test (about 85 seconds: the dash alone, then a Simos.app logging session with the dash paused, then the dash again). The dash's mode 22 values were accurate when I checked them in the car. HSL for the dash and the final dash in a long drive are not tested yet.
-* The dongle sleeps when the car is off, and it wakes when the car is unlocked or BOOT is pressed, and one bench measurement of the assembled dongle shows about 5 to 6 mA asleep (see Auto sleep). In my own car I have watched it go to sleep and wake, and its logs from almost a week of testing show the same. Whether it reaches sleep depends on the car's network going quiet, so another car that keeps its network busy could keep it awake.
+* The dash link has run in the car as part of Simos mode: on 23 Oct 2026 in a short test (the dash alone, then a Simos.app logging session with the dash paused, then the dash again; mode 22 and HSL values checked and accurate), and on 24 Oct in two drives of about 27 minutes each with the dash alone (20 reads a second, no lost frames, no errors on the car's network in the dongle's log). A long drive with the final dash is not tested yet.
+* The dongle sleeps when the car is off, and it wakes when the car is unlocked or BOOT is pressed, and one bench measurement of the assembled dongle shows about 5 to 6 mA asleep (see Auto sleep). In my own car I have watched it go to sleep and wake, and its logs from almost a week of testing show the same. Whether it reaches sleep depends on the car's network going quiet, so another car that keeps its network busy could keep it awake. **A known problem:** in my own car, twice in my logs (23 and 24 Oct 2026) the car's network started up again within seconds after the dongle went to sleep and kept the dongle awake (once for at least four hours, once until I next drove). I suspect the dongle's own CAN pin and have changed the firmware to hold it quiet during sleep, but I have not yet tested in a parked car whether that fixes it. Until I have, unplug the dongle if you park for more than a day.
 * I have not tested it with every vehicle, app version or phone.
 
 ## Safety and legal
