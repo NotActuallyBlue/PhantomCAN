@@ -7,8 +7,6 @@ screen, and connects to your phone or laptop over Bluetooth, Wi-Fi or USB.
 
 **Firmware updates** will appear in this page's [Releases](../../releases) section; there is no public release yet, so for now the firmware on your dongle is the one to use. Each release will have the update file (`phantomcan-dongle.bin`, installed over Wi-Fi, see [Updating the firmware](#updating-the-firmware)), a full image (only needed to recover a dongle over USB) and a checksum file.
 
-**Known limits** are listed at the end of [How this was built](#how-this-was-built).
-
 **What it does**
 
 * **Log and tune with Simos.app.** A fast Bluetooth link for Simos.app: live ECU and transmission
@@ -20,7 +18,7 @@ screen, and connects to your phone or laptop over Bluetooth, Wi-Fi or USB.
 **Contents:** [What you need](#what-you-need) · [Getting started](#getting-started) · [Choosing a mode](#choosing-a-mode) ·
 [Simos mode](#simos-mode) · [SavvyCAN mode](#savvycan-mode) · [The PhantomDASH](#the-phantomdash) ·
 [Auto sleep](#auto-sleep) · [Updating the firmware](#updating-the-firmware) · [Troubleshooting](#troubleshooting) ·
-[Specifications](#specifications) · [How this was built](#how-this-was-built) · [Safety and legal](#safety-and-legal) ·
+[Specifications](#specifications) · [Safety and legal](#safety-and-legal) ·
 [Credits and licences](#credits-and-licences)
 
 ---
@@ -143,7 +141,7 @@ For the PhantomDASH digital dash, a separate product that is still in developmen
 * **Pairing, once:** disconnect any phone app, hold **BOOT** until the screen says **PAIR DASH** (about 4 seconds) and let go. Then start pairing on the dash's phone page. Both show the same six-digit code: if they match, confirm on the phone and press **KEY** on the dongle; if not, tap **BOOT**. There is nothing to type, and the keys are kept for next time. With no dash paired, the dongle does not start its radio link at all.
 * **Every day:** the dash shows live values as soon as the car is awake. The **DASH** row on the dongle's first page says **LIVE** with the number of reads a second while it is serving the dash.
 * **When you connect Simos.app:** the dongle hands the car to the app at once. It switches its dash radio off completely (the app gets the dongle's full memory and attention), and the dash shows **APP CONNECTED**. About 2 seconds after the app disconnects the dash link comes back by itself.
-* **Lists:** the dongle carries no value lists. The names, scalings and gauges live on the dash (on its SD card); the dongle only asks the car for the identifiers the dash subscribes to and passes the raw answers back. Mode 22 lists and HSL lists (the engine computer's high-speed logging, which needs a tune with the HSL patch) both work.
+* **Lists:** the dongle carries no value lists. The names, scalings and gauges live on the dash; the dongle only asks the car for the identifiers the dash subscribes to and passes the raw answers back. Mode 22 lists and HSL lists (the engine computer's high-speed logging, which needs a tune with the HSL patch) both work.
 
 ## Auto sleep
 
@@ -192,21 +190,6 @@ You can update over Wi-Fi without any cable.
 | Controls | BOOT and KEY buttons |
 | Modes | Simos (which also feeds the PhantomDASH) and SavvyCAN, plus Bench sim and Wi-Fi update |
 | Protocols | ISO-TP (ISO 15765-2), UDS (ISO 14229), GVRET |
-
-## How this was built
-
-PhantomCAN is made by Ghostwerks. I designed it, I test it, and I am the person to ask about it. The firmware was written with heavy AI
-assistance (Claude, from Anthropic, and Gemini, from Google), working from my direction and checked against a real car. I say this plainly because I think you should know. It builds on open-source work, credited below, most of all the
-[esp32-isotp-ble-bridge](https://github.com/bri3d/esp32-isotp-ble-bridge) by Brian Ledbetter and Switchleg1.
-
-The dongle keeps a log in its own memory, including crash reports, so a fault can be traced. **Bug reports are welcome:** open an issue on this page (the only support channel for now) and include the log if you can.
-
-**Known limits**
-
-* The hardware is a prototype; a custom board is planned.
-* The Bluetooth connection cannot have a password (see Safety and legal).
-* Flashing is the newest part. Use it carefully, with the battery charged and the ignition on, engine off.
-* In a parked car the dongle may not reach sleep (see Auto sleep).
 
 ## Safety and legal
 
