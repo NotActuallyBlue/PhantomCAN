@@ -61,7 +61,7 @@ bench use only.
 | **CAN** | The car's bus. **OK** is healthy. **T** and **R** count transmit and receive errors on the bus; they should be at or near 0. |
 | **ECU, TCU** | How long the engine and transmission computers took to answer the last request, once they have been asked something. |
 | **ISO-TP ERR** | Replies that arrived damaged or late. A few over a long session is normal; a number climbing fast is worth telling me about. |
-| **HEAP, FLASH LOG** | Memory in use and the dongle's own log. Only useful when you send a bug report. |
+| **HEAP, FLASH LOG** | Memory in use and the dongle's own log. Only useful when you send a log (see [Sending a log](#sending-a-log)). |
 | **RX, TX** | Frames received from and sent to the car. |
 
 ## Choosing a mode
@@ -168,10 +168,22 @@ You can update over Wi-Fi without any cable.
 5. The dongle restarts by itself. **Wait about 30 seconds before unplugging it.** It checks the new firmware as it starts, and goes back to
    the previous version automatically if the new one does not start properly.
 
+## Sending a log
+
+If something did not work, the dongle's log shows what happened. It keeps its last 24 starts (each drive, and each wake from sleep, is a start).
+
+1. Leave the dongle as it is after the problem (do not update it first).
+2. Start **Wi-Fi update** and join its Wi-Fi as in steps 2 and 3 of [Updating the firmware](#updating-the-firmware).
+3. Open `http://192.168.4.1` and tap **Download the log**. The phone saves `phantomcan-log.txt`.
+4. Open a new issue under this page's **Issues** tab, attach the file and say what you did, what happened and roughly when. Wi-Fi passwords in the log are replaced by stars.
+
+The dongle restarts by itself after 10 minutes if no update is sent, or unplug it and plug it back in.
+
 ## Troubleshooting
 
 | Problem | Try this |
 |---|---|
+| The page at 192.168.4.1 does not open | Turn off mobile data while you are on the dongle's Wi-Fi, and type the address in full with `http://` (not `https://`). |
 | The dongle does not show in the app | If the screen says **LOCKED**, hold **KEY** for 2 seconds to open Bluetooth for another minute. Also make sure no other phone is connected to it, or unplug it and plug it back in, then look for **BLE_TO_ISOTP20**. |
 | Nothing answers, or the screen says BUS SILENT | Turn the ignition on and wait a few seconds. Some cars need the engine running before the OBD port wakes. |
 | The app connects but nothing logs | Check the screen says **CONNECTED** and the **CAN** row is green. Make sure the ignition is on. If **ISO-TP ERR** climbs fast, unplug the dongle, plug it back in and reconnect. |
