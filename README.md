@@ -1,7 +1,7 @@
 # PhantomCAN
 
 A pocket logging and tuning dongle for VAG cars. It plugs into the OBD-II port, shows what it is doing on its own
-screen, and connects to your phone or laptop over Bluetooth, Wi-Fi or USB.
+screen, and connects to your phone over Bluetooth.
 
 **Status: pre-release.** Your dongle already runs working firmware and does everything below, but it is still being tested and bugs are expected. Features and behaviour can change.
 
@@ -11,12 +11,11 @@ screen, and connects to your phone or laptop over Bluetooth, Wi-Fi or USB.
 
 * **Log and tune with Simos.app.** A fast Bluetooth link for Simos.app: live ECU and transmission
   logging, ECU info and flashing.
-* **Capture CAN traffic on a computer.** SavvyCAN mode streams raw CAN frames over Wi-Fi, so it works with the dongle in the car.
 * **Feed an in-car digital dash.** In Simos mode, while no phone app is connected, the dongle sends live readings to the PhantomDASH display over an encrypted radio link; when an app connects the dash pauses and shows **APP CONNECTED**, and it carries on when the app disconnects (the dash is a separate product, still in development).
 * **Sleep when the car is off,** and update its own firmware over Wi-Fi.
 
 **Contents:** [What you need](#what-you-need) · [Getting started](#getting-started) · [Choosing a mode](#choosing-a-mode) ·
-[Simos mode](#simos-mode) · [SavvyCAN mode](#savvycan-mode) · [The PhantomDASH](#the-phantomdash) ·
+[Simos mode](#simos-mode) · [The PhantomDASH](#the-phantomdash) · [Sending a log](#sending-a-log) ·
 [Auto sleep](#auto-sleep) · [Updating the firmware](#updating-the-firmware) · [Troubleshooting](#troubleshooting) ·
 [Specifications](#specifications) · [Safety and legal](#safety-and-legal) ·
 [Credits and licences](#credits-and-licences)
@@ -25,13 +24,12 @@ screen, and connects to your phone or laptop over Bluetooth, Wi-Fi or USB.
 
 ## What the screen shows
 
-![The dongle's screens: Simos mode with the dash row, bus traffic, firmware and memory, SavvyCAN, pairing the dash, the Pair dash prompt, Wi-Fi update and About](img/screens.png)
+![The dongle's screens: Simos mode with the dash row, bus traffic, firmware and memory, pairing the dash, the Pair dash prompt, Wi-Fi update and About](img/screens.png)
 
 ## What you need
 
 * A VAG car (Volkswagen, Audi, SEAT, Skoda) with a standard OBD-II port that uses **CAN at 500 kbit/s**, and that is logged with mode 22. The dongle itself does not care which model it is: what you can log and flash is decided by the app, and **Simos.app** provides the list of supported cars and control units.
 * For Simos mode: **Simos.app**, a separate product you get from its own developer. Its developer can tell you which phones and computers it runs on.
-* For SavvyCAN mode: a computer with [SavvyCAN](https://www.savvycan.com).
 
 Not supported: CAN FD and DoIP (found on the newest cars), K-line, and older cars that use the TP 2.0 protocol.
 
@@ -44,12 +42,11 @@ Not supported: CAN FD and DoIP (found on the newest cars), K-line, and older car
 4. **Open Simos.app and connect to that name while the countdown runs.** The dongle does not need pairing in your phone's Bluetooth settings; choose it in the app's own device list. If the minute runs out first, the screen says **LOCKED** and the dongle disappears from the app's list: **hold KEY for 2 seconds** to open it for another minute.
 5. **Check the screen.** When it works, the header says **CONNECTED** and the **CAN** row shows green **OK**.
 
-To use a different mode (SavvyCAN), or to see what the buttons do, see [Choosing a mode](#choosing-a-mode). If you just let go of the button when you see the screen you want, you will not need the timings.
+To see what the buttons do, see [Choosing a mode](#choosing-a-mode). If you just let go of the button when you see the screen you want, you will not need the timings.
 
-Do not connect the dongle to a computer over USB while it is plugged into a car. Use Bluetooth or Wi-Fi in the car. USB is for
-bench use only.
+Do not connect the dongle to a computer over USB while it is plugged into a car. USB is for bench use only.
 
-**The two buttons** are **BOOT** and **KEY**. BOOT changes mode and pages the screen; KEY reopens Bluetooth (2 seconds) and shows the About screen (5 seconds).
+**The two buttons** are **BOOT** and **KEY**. BOOT opens the menu (pair the dash, demo mode, Wi-Fi update) and pages the screen; KEY reopens Bluetooth (2 seconds) and shows the About screen (5 seconds).
 
 **Reading the status screen** (the first page; tap BOOT for the others):
 
@@ -66,38 +63,35 @@ bench use only.
 
 ## Choosing a mode
 
-The dongle has two buttons: **BOOT** and **KEY**. To change mode, hold **BOOT**. You do not need to count seconds: the screen shows what will happen when you let go, so
+The dongle has two buttons: **BOOT** and **KEY**. For the menu, hold **BOOT**. You do not need to count seconds: the screen shows what will happen when you let go, so
 release when you see what you want. The times below are only a guide.
 
 | Hold BOOT for | The screen offers | What happens |
 |---|---|---|
 | a quick tap | next page | cycles the status, bus monitor and firmware info pages |
-| 2 to 3.5 seconds | the other mode | switches between Simos and SavvyCAN and restarts (in SavvyCAN mode this lasts until 6.5 seconds) |
-| about 3.5 to 6.5 seconds (Simos mode) | **Pair dash** | opens a pairing window for the PhantomDASH, no restart (see [The PhantomDASH](#the-phantomdash)) |
+| about 3.5 to 6.5 seconds | **Pair dash** | opens a pairing window for the PhantomDASH, no restart (see [The PhantomDASH](#the-phantomdash)) |
 | about 6.5 to 8 seconds (about 7 is safe) | **Bench sim** | demo mode, no car needed (see below) |
 | about 8 to 9.5 seconds | **Wi-Fi update** | firmware update mode |
 | 9.5 seconds or more | **Cancel** | restarts in the same mode |
 
-**Pairing Mode.** After the 3-second start-up animation, Simos and SavvyCAN mode show a **PAIRING MODE** screen with a one-minute
-countdown, the Bluetooth name and, where it applies, the Wi-Fi name, password and address. Connect your app while it counts down. It goes away
-as soon as something connects, when the minute is up, or when you press any button. In Simos mode Bluetooth stops accepting new
+**Pairing Mode.** After the 3-second start-up animation the dongle shows a **PAIRING MODE** screen with a one-minute
+countdown and the Bluetooth name. Connect your app while it counts down. It goes away
+as soon as something connects, when the minute is up, or when you press any button. Bluetooth stops accepting new
 connections when the minute ends (the screen says **LOCKED**); **hold KEY for 2 seconds** to open it, and the Pairing Mode screen, for another minute.
-Simos Bluetooth has no password, so its screen shows only the name; the Wi-Fi modes show the Wi-Fi password.
-SavvyCAN uses Wi-Fi only, so its screen is a reminder of the network details and nothing locks.
+Bluetooth has no password, so the screen shows only the name.
 
 **About screen.** Hold **KEY** for 5 seconds to show a QR code that opens this project's page on
 GitHub, along with the product name and firmware build. Any button closes it.
 
-The mode you pick is remembered. Bench sim and Wi-Fi update last for one session only: unplug the dongle and plug it back in to return
-to your mode.
+Bench sim and Wi-Fi update last for one session only: unplug the dongle and plug it back in to return to Simos mode.
 
-**Try it without a car.** Hold BOOT for about 7 seconds and release on **Bench sim**. The dongle then runs your chosen mode against
+**Try it without a car.** Hold BOOT for about 7 seconds and release on **Bench sim**. The dongle then runs Simos mode against
 simulated control units (an engine, a transmission, a gateway and an ABS module), so you can try an
 app without a car. Nothing is sent on a car's CAN bus.
 
 ## Simos mode
 
-The default mode. The dongle appears over Bluetooth as **BLE_TO_ISOTP20**.
+The dongle's normal mode. It appears over Bluetooth as **BLE_TO_ISOTP20**.
 
 1. Open Simos.app and choose the dongle in its Bluetooth device list.
 2. Connect. The screen shows **CONNECTED** with the connection details (link speed and ECU and transmission response times).
@@ -109,30 +103,6 @@ charged.
 Compatibility notes:
 
 * **Simos.app** works with both the engine control unit (ECU) and the transmission control unit (TCU).
-
-## SavvyCAN mode
-
-For capturing and analysing raw CAN traffic with [SavvyCAN](https://www.savvycan.com) on a computer, with the dongle in the car.
-
-1. Switch the dongle to SavvyCAN mode.
-2. On your computer, join the Wi-Fi network **PhantomCAN** (the password is shown on the dongle's screen; it stays the same, so your computer or phone can remember it once).
-3. In SavvyCAN, add a new device connection of the **network connection (GVRET)** type, with the IP address `192.168.0.10` and port `23`.
-4. Connect. The screen shows the connection status and counts the frames captured and sent.
-
-The dongle reads at 500 kbit/s. Frames you send from SavvyCAN go out on the car's bus, so only send frames you understand.
-
-**What you will see on the car.** Many modern cars (VW, Audi and others) put a gateway module between the OBD-II port and the car's internal
-networks. Through the port you normally see only diagnostic traffic: the replies to requests you send, plus a few status messages. Everyday
-broadcast data such as RPM or wheel speed is not forwarded, so a capture on a plain OBD-II connection can look nearly empty. To see that
-data you either request it from a module by its address, or connect to the car's network behind the gateway.
-
-**Try it without a car.** Power the dongle from any USB port or charger, hold BOOT for about 7 seconds with SavvyCAN as your mode and release on
-**Bench sim**, and connect as above over Wi-Fi. SavvyCAN then shows three test messages that repeat (IDs `0x100` every 10 ms, `0x200` every
-20 ms and `0x300` every 100 ms), and the simulated control units answer requests: for example, send ID `0x7DF` with the data `02 01 00` and the
-engine and transmission reply on `0x7E8` and `0x7E9`.
-
-At a desk you can also connect the dongle to the computer over USB and add it in SavvyCAN as a serial **GVRET** device (250000 baud). Do not do
-this while the dongle is in a car.
 
 ## The PhantomDASH
 
@@ -148,7 +118,7 @@ For the PhantomDASH digital dash, a separate product that is still in developmen
 The OBD-II port has power all the time, so to avoid draining the car's battery the dongle goes into a low-power sleep after **3 minutes**
 with no CAN traffic, no connected phone, app or paired dash, and no button presses. Driving the car, unlocking it, connecting an app or pressing BOOT wakes it. If something merely stirred the car's network and nothing
 connects, the dongle goes back to sleep after about 30 seconds instead of staying awake for the full 3 minutes. It does
-not sleep while connected over USB, or in Bench sim or Wi-Fi update modes. In SavvyCAN mode it sleeps only when no computer is connected.
+not sleep while connected over USB, or in Bench sim or Wi-Fi update modes.
 
 **Known issue:** in one parked car the dongle stayed awake for hours because the car's network kept sending a status frame. A fix is in the firmware but is not confirmed yet, so do not count on it sleeping.
 
@@ -196,12 +166,12 @@ The dongle restarts by itself after 10 minutes if no update is sent, or unplug i
 |---|---|
 | Connection to the car | OBD-II port, CAN at 500 kbit/s (11-bit) |
 | Power | 12 V from the OBD-II port. About 75 mA with the screen on and 35 mA with it off, awake and idle; about 6 mA asleep |
-| Wireless | Bluetooth LE, a 2.4 GHz Wi-Fi access point (WPA2) and an encrypted ESP-NOW link to the PhantomDASH |
+| Wireless | Bluetooth LE, a 2.4 GHz Wi-Fi access point (WPA2, update mode only) and an encrypted ESP-NOW link to the PhantomDASH |
 | USB | USB-C, for bench use |
 | Display | 1.9 inch colour screen, 170 x 320 |
 | Controls | BOOT and KEY buttons |
-| Modes | Simos (which also feeds the PhantomDASH) and SavvyCAN, plus Bench sim and Wi-Fi update |
-| Protocols | ISO-TP (ISO 15765-2), UDS (ISO 14229), GVRET |
+| Modes | Simos (which also feeds the PhantomDASH), plus Bench sim and Wi-Fi update |
+| Protocols | ISO-TP (ISO 15765-2), UDS (ISO 14229) |
 
 ## Safety and legal
 
@@ -212,7 +182,7 @@ The dongle restarts by itself after 10 minutes if no update is sent, or unplug i
   Simos mode it takes new Bluetooth connections for **one minute** after it starts and after every button press, then stops
   advertising and the screen shows **LOCKED**. Hold **KEY** for 2 seconds to open it for another minute. While the dongle is plugged into a computer over
   USB (desk use), Bluetooth never locks. An app that is already connected is never cut
-  off, and the minute starts again when it disconnects. The Wi-Fi networks use a password, which is shown on the dongle's screen. Unplug the
+  off, and the minute starts again when it disconnects. The Wi-Fi update network uses a new password each time, shown on the dongle's screen. Unplug the
   dongle when you are not using it.
 * Modifying a vehicle's emissions equipment or its emissions-related software can be illegal for road use where you live. This dongle only
   reports what a control unit says; you are responsible for complying with local law.
