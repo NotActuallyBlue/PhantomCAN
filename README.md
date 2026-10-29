@@ -24,7 +24,9 @@ screen, and connects to your phone over Bluetooth.
 
 ## What the screen shows
 
-![The dongle's screens: Simos mode with the dash row, bus traffic, firmware and memory, pairing the dash, the Pair dash prompt, Wi-Fi update and About](img/screens.png)
+The dongle starts on its **home screen**: one word for what it is doing (**READY**, **CONNECTED**, **LOGGING** or **LOCKED**), a line saying what to do next, and whether the car, your app and the PhantomDASH are there. Tap **BOOT** for the detailed pages (status, bus monitor, firmware and memory), and once more to come back.
+
+![The dongle's screens: the home screen, the status page with the dash row, bus traffic, firmware and memory, pairing the dash, the Pair dash prompt, Wi-Fi update and About](img/screens.png)
 
 ## What you need
 
@@ -48,7 +50,7 @@ Do not connect the dongle to a computer over USB while it is plugged into a car.
 
 **The two buttons** are **BOOT** and **KEY**. BOOT opens the menu (pair the dash, demo mode, Wi-Fi update) and pages the screen; KEY reopens Bluetooth (2 seconds) and shows the About screen (5 seconds).
 
-**Reading the status screen** (the first page; tap BOOT for the others):
+**Reading the status page** (tap BOOT once from the home screen):
 
 | Row | What it means |
 |---|---|
@@ -68,7 +70,7 @@ release when you see what you want. The times below are only a guide.
 
 | Hold BOOT for | The screen offers | What happens |
 |---|---|---|
-| a quick tap | next page | cycles the status, bus monitor and firmware info pages |
+| a quick tap | next page | cycles the home screen and the status, bus monitor and firmware info pages |
 | about 3.5 to 6.5 seconds | **Pair dash** | opens a pairing window for the PhantomDASH, no restart (see [The PhantomDASH](#the-phantomdash)) |
 | about 6.5 to 8 seconds (about 7 is safe) | **Bench sim** | demo mode, no car needed (see below) |
 | about 8 to 9.5 seconds | **Wi-Fi update** | firmware update mode |
@@ -109,7 +111,7 @@ Compatibility notes:
 For the PhantomDASH digital dash, a separate product that is still in development. There is no separate mode for it: Simos mode serves the dash whenever no phone app is connected. The dongle only reads: it asks the car for the values the dash wants and sends the raw answers over an encrypted ESP-NOW radio link.
 
 * **Pairing, once:** disconnect any phone app, hold **BOOT** until the screen says **PAIR DASH** (about 4 seconds) and let go. Then start pairing on the dash's phone page. Both show the same six-digit code: if they match, confirm on the phone and press **KEY** on the dongle; if not, tap **BOOT**. There is nothing to type, and the keys are kept for next time. With no dash paired, the dongle does not start its radio link at all.
-* **Every day:** the dash shows live values as soon as the car is awake. The **DASH** row on the dongle's first page says **LIVE** with the number of reads a second while it is serving the dash.
+* **Every day:** the dash shows live values as soon as the car is awake. The home screen's **Dash** line says **live** (and the **DASH** row on the status page **LIVE**, with the number of reads a second) while it is serving the dash.
 * **When you connect Simos.app:** the dongle hands the car to the app at once. It switches its dash radio off completely (the app gets the dongle's full memory and attention), and the dash shows **APP CONNECTED**. About 2 seconds after the app disconnects the dash link comes back by itself.
 * **Lists:** the dongle carries no value lists. The names, scalings and gauges live on the dash; the dongle only asks the car for the identifiers the dash subscribes to and passes the raw answers back. Mode 22 lists and HSL lists (the engine computer's high-speed logging, which needs a tune with the HSL patch) both work.
 
