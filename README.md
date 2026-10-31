@@ -122,7 +122,9 @@ with no CAN traffic, no connected phone, app or paired dash, and no button press
 connects, the dongle goes back to sleep after about 30 seconds instead of staying awake for the full 3 minutes. It does
 not sleep while connected over USB, or in Bench sim or Wi-Fi update modes.
 
-**Known issue:** in one parked car the dongle stayed awake for hours because the car's network kept sending a status frame. A fix is in the firmware but is not confirmed yet, so do not count on it sleeping.
+A phone that stays connected keeps the dongle awake, even with the app in the background: close Simos.app (or turn off the phone's Bluetooth) when you are done.
+
+**Fixed:** in one parked car the dongle used to stay awake for hours because the car's network kept sending a status frame after the dongle went to sleep. The firmware now holds the dongle's CAN transmit line quiet through sleep, and in that car it now goes to sleep and stays asleep.
 
 Sleep lowers the dongle's power use but does not turn it off completely. Idle with no data and the screen off, it draws about **30 to 35 mA** while awake (the 3 minutes before sleep) and about **5 to 6 mA** asleep. That is roughly 0.14 Ah a day asleep, and about 0.8 Ah a day if it stays awake. **If you leave the car parked for more than a day or two, unplug the
 dongle.**
@@ -160,6 +162,7 @@ The dongle restarts by itself after 10 minutes if no update is sent, or unplug i
 | Nothing answers, or the screen says BUS SILENT | Turn the ignition on and wait a few seconds. Some cars need the engine running before the OBD port wakes. |
 | The app connects but nothing logs | Check the screen says **CONNECTED** and the **CAN** row is green. Make sure the ignition is on. If **ISO-TP ERR** climbs fast, unplug the dongle, plug it back in and reconnect. |
 | The screen is dark | It switches off after a while. Press BOOT to wake it. |
+| The dongle never goes to sleep, or the dash keeps showing **APP CONNECTED** | A phone app is still connected, often Simos.app left open in the background. Close it or turn off the phone's Bluetooth. |
 | The dongle does not respond after an update | Wait 30 seconds. If it is still unresponsive, unplug it and plug it back in; it starts the previous firmware if the new one failed. |
 
 ## Specifications
