@@ -126,8 +126,7 @@ A phone that stays connected keeps the dongle awake, even with the app in the ba
 
 **Fixed:** in one parked car the dongle used to stay awake for hours because the car's network kept sending a status frame after the dongle went to sleep. The firmware now holds the dongle's CAN transmit line quiet through sleep, and in that car it now goes to sleep and stays asleep.
 
-Sleep lowers the dongle's power use but does not turn it off completely. Idle with no data and the screen off, it draws about **30 to 35 mA** while awake (the 3 minutes before sleep) and about **5 to 6 mA** asleep. That is roughly 0.14 Ah a day asleep, and about 0.8 Ah a day if it stays awake. **If you leave the car parked for more than a day or two, unplug the
-dongle.**
+Sleep lowers the dongle's power use but does not turn it off completely. Idle with no data and the screen off, it draws about **30 to 35 mA** while awake (the 3 minutes before sleep) and about **5 to 6 mA** asleep. That is roughly 0.14 Ah a day asleep, and about 0.8 Ah a day if it stays awake. It is safe to leave plugged in on a car you drive every day, even if it sits parked for a week; a week asleep uses about 1 Ah.
 
 ## Updating the firmware
 
