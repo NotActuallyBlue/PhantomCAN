@@ -13,7 +13,7 @@ screen, and connects to your phone over Bluetooth.
   logging, ECU info and flashing.
 * **Log with PhantomLog.** The free PhantomLog app for Android logs the engine and transmission (mode 22 or HSL), shows live gauges,
   and lets you look through, analyze and compare your logs on the phone. It only reads: flashing and tuning stay with Simos.app.
-  The first release is coming soon on [its page](https://github.com/NotActuallyBlue/PhantomLog).
+  Download it from [its page](https://github.com/NotActuallyBlue/PhantomLog/releases/latest).
 * **Feed an in-car digital dash.** In Simos mode, while no phone app is connected, the dongle sends live readings to the PhantomDASH display over an encrypted radio link; when an app connects the dash pauses and shows **APP CONNECTED**, and it carries on when the app disconnects (the dash is a separate product).
 * **Sleep when the car is off,** and update its own firmware over Wi-Fi.
 
@@ -35,7 +35,7 @@ The dongle starts on its **home screen**: one word for what it is doing (**READY
 
 * A VAG car (Volkswagen, Audi, SEAT, Skoda) with a standard OBD-II port that uses **CAN at 500 kbit/s**, and that is logged with mode 22. The dongle itself does not care which model it is: what you can log and flash is decided by the app, and **Simos.app** provides the list of supported cars and control units.
 * For Simos mode: **Simos.app**, a separate product you get from its own developer, for logging and flashing. Its developer can tell you which phones and computers it runs on.
-* Or, for logging only: **PhantomLog**, the free app for Android phones (coming soon).
+* Or, for logging only: **PhantomLog**, the free app for Android phones ([download](https://github.com/NotActuallyBlue/PhantomLog/releases/latest)).
 
 Not supported: CAN FD and DoIP (found on the newest cars), K-line, and older cars that use the TP 2.0 protocol.
 
