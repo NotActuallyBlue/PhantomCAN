@@ -11,7 +11,10 @@ screen, and connects to your phone over Bluetooth.
 
 * **Log and tune with Simos.app.** A fast Bluetooth link for Simos.app: live ECU and transmission
   logging, ECU info and flashing.
-* **Feed an in-car digital dash.** In Simos mode, while no phone app is connected, the dongle sends live readings to the PhantomDASH display over an encrypted radio link; when an app connects the dash pauses and shows **APP CONNECTED**, and it carries on when the app disconnects (the dash is a separate product, still in development).
+* **Log with PhantomLog.** The free PhantomLog app for Android logs the engine and transmission (mode 22 or HSL), shows live gauges,
+  and lets you look through, analyze and compare your logs on the phone. It only reads: flashing and tuning stay with Simos.app.
+  The first release is coming soon on [its page](https://github.com/NotActuallyBlue/PhantomLog).
+* **Feed an in-car digital dash.** In Simos mode, while no phone app is connected, the dongle sends live readings to the PhantomDASH display over an encrypted radio link; when an app connects the dash pauses and shows **APP CONNECTED**, and it carries on when the app disconnects (the dash is a separate product).
 * **Sleep when the car is off,** and update its own firmware over Wi-Fi.
 
 **Contents:** [What you need](#what-you-need) · [Getting started](#getting-started) · [Choosing a mode](#choosing-a-mode) ·
@@ -31,7 +34,8 @@ The dongle starts on its **home screen**: one word for what it is doing (**READY
 ## What you need
 
 * A VAG car (Volkswagen, Audi, SEAT, Skoda) with a standard OBD-II port that uses **CAN at 500 kbit/s**, and that is logged with mode 22. The dongle itself does not care which model it is: what you can log and flash is decided by the app, and **Simos.app** provides the list of supported cars and control units.
-* For Simos mode: **Simos.app**, a separate product you get from its own developer. Its developer can tell you which phones and computers it runs on.
+* For Simos mode: **Simos.app**, a separate product you get from its own developer, for logging and flashing. Its developer can tell you which phones and computers it runs on.
+* Or, for logging only: **PhantomLog**, the free app for Android phones (coming soon).
 
 Not supported: CAN FD and DoIP (found on the newest cars), K-line, and older cars that use the TP 2.0 protocol.
 
@@ -41,7 +45,7 @@ Not supported: CAN FD and DoIP (found on the newest cars), K-line, and older car
 2. **Turn the ignition on** so the dash lights up. For flashing, use ignition on with the engine off. Some cars need a few seconds after the dash
    lights up before the OBD port wakes.
 3. **Wait for the start-up animation (about 3 seconds).** Out of the box the dongle is in Simos mode. The screen then shows **PAIRING MODE** with a **one-minute countdown** and the Bluetooth name, **BLE_TO_ISOTP20**.
-4. **Open Simos.app and connect to that name while the countdown runs.** The dongle does not need pairing in your phone's Bluetooth settings; choose it in the app's own device list. If the minute runs out first, the screen says **LOCKED** and the dongle disappears from the app's list: **hold KEY for 2 seconds** to open it for another minute.
+4. **Open Simos.app (or PhantomLog: Find my dongle) and connect to that name while the countdown runs.** The dongle does not need pairing in your phone's Bluetooth settings; choose it in the app's own device list. If the minute runs out first, the screen says **LOCKED** and the dongle disappears from the app's list: **hold KEY for 2 seconds** to open it for another minute.
 5. **Check the screen.** When it works, the header says **CONNECTED** and the **CAN** row shows green **OK**.
 
 To see what the buttons do, see [Choosing a mode](#choosing-a-mode). If you just let go of the button when you see the screen you want, you will not need the timings.
@@ -105,14 +109,15 @@ charged.
 Compatibility notes:
 
 * **Simos.app** works with both the engine control unit (ECU) and the transmission control unit (TCU).
+* **PhantomLog** logs the ECU and the TCU together, or the Haldex unit on its own.
 
 ## The PhantomDASH
 
-For the PhantomDASH digital dash, a separate product that is still in development. There is no separate mode for it: Simos mode serves the dash whenever no phone app is connected. The dongle only reads: it asks the car for the values the dash wants and sends the raw answers over an encrypted ESP-NOW radio link.
+For the PhantomDASH digital dash, a separate product. There is no separate mode for it: Simos mode serves the dash whenever no phone app is connected. The dongle only reads: it asks the car for the values the dash wants and sends the raw answers over an encrypted ESP-NOW radio link.
 
 * **Pairing, once:** disconnect any phone app, hold **BOOT** until the screen says **PAIR DASH** (about 4 seconds) and let go. Then start pairing on the dash's phone page. Both show the same six-digit code: if they match, confirm on the phone and press **KEY** on the dongle; if not, tap **BOOT**. There is nothing to type, and the keys are kept for next time. With no dash paired, the dongle does not start its radio link at all.
 * **Every day:** the dash shows live values as soon as the car is awake. The home screen's **Dash** line says **live** (and the **DASH** row on the status page **LIVE**, with the number of reads a second) while it is serving the dash.
-* **When you connect Simos.app:** the dongle hands the car to the app at once. It switches its dash radio off completely (the app gets the dongle's full memory and attention), and the dash shows **APP CONNECTED**. About 2 seconds after the app disconnects the dash link comes back by itself.
+* **When you connect Simos.app or PhantomLog:** the dongle hands the car to the app at once. It switches its dash radio off completely (the app gets the dongle's full memory and attention), and the dash shows **APP CONNECTED**. About 2 seconds after the app disconnects the dash link comes back by itself.
 * **Lists:** the dongle carries no value lists. The names, scalings and gauges live on the dash; the dongle only asks the car for the identifiers the dash subscribes to and passes the raw answers back. Mode 22 lists and HSL lists (the engine computer's high-speed logging, which needs a tune with the HSL patch) both work.
 
 ## Auto sleep
@@ -122,7 +127,7 @@ with no CAN traffic, no connected phone, app or paired dash, and no button press
 connects, the dongle goes back to sleep after about 30 seconds instead of staying awake for the full 3 minutes. It does
 not sleep while connected over USB, or in Bench sim or Wi-Fi update modes.
 
-A phone that stays connected keeps the dongle awake, even with the app in the background: close Simos.app (or turn off the phone's Bluetooth) when you are done.
+A phone that stays connected keeps the dongle awake, even with the app in the background: close the app (or turn off the phone's Bluetooth) when you are done.
 
 **Fixed:** in one parked car the dongle used to stay awake for hours because the car's network kept sending a status frame after the dongle went to sleep. The firmware now holds the dongle's CAN transmit line quiet through sleep, and in that car it now goes to sleep and stays asleep.
 
